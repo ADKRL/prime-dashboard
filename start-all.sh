@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prime Dashboard - Start All Services
-# This script starts the coordinator, Ngrok tunnel, and opens the dashboard URL
+# This script starts the coordinator, Ngrok tunnel, and deploys the dashboard
 
 set -e
 
@@ -28,14 +28,14 @@ fi
 
 echo "Step 1: Starting Coordinator..."
 echo "Command: $COORDINATOR_BIN -config $COORDINATOR_CONFIG"
-open -a Terminal "cd '$COORDINATOR_PATH' && '$COORDINATOR_BIN' -config '$COORDINATOR_CONFIG' && sleep 100"
+osascript -e "tell app \"Terminal\" to do script \"cd '$COORDINATOR_PATH' && '$COORDINATOR_BIN' -config '$COORDINATOR_CONFIG'\""
 sleep 3
 echo "✅ Coordinator started in new terminal"
 echo ""
 
 echo "Step 2: Starting Ngrok Tunnel..."
 echo "Command: ngrok http 9000"
-open -a Terminal "ngrok http 9000 && sleep 100"
+osascript -e "tell app \"Terminal\" to do script \"ngrok http 9000\""
 sleep 5
 echo "✅ Ngrok tunnel started in new terminal"
 echo ""
