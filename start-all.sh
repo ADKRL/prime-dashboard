@@ -34,7 +34,7 @@ echo "✅ Coordinator started in new terminal"
 echo ""
 
 echo "Step 2: Starting Ngrok Tunnel..."
-echo "Command: ngrok http 9000"
+echo "Command: ngrok http 8080"
 osascript -e "tell app \"Terminal\" to do script \"ngrok http 9000\""
 sleep 5
 echo "✅ Ngrok tunnel started in new terminal"

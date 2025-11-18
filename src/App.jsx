@@ -3,13 +3,6 @@ import { Activity, Users, Layers, Clock, CheckCircle, AlertCircle, Zap } from "l
 import "./App.css";
 
 function App() {
-  // Get coordinator API endpoint from environment or use default
-  const getCoordinatorUrl = () => {
-    const host = import.meta.env.VITE_COORDINATOR_HOST || 'localhost';
-    const port = import.meta.env.VITE_COORDINATOR_PORT || '9000';
-    return `http://${host}:${port}/api/status`;
-  };
-
   const [stats, setStats] = useState({
     totalJobs: 0,
     completedJobs: 0,
@@ -28,26 +21,42 @@ function App() {
   });
 
   const [previousStats, setPreviousStats] = useState(null);
-  const [coordinatorUrl] = useState(getCoordinatorUrl());
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch(coordinatorUrl);
+        // Use Netlify Function to proxy API calls (bypasses CORS issues)
+        const proxyUrl = '/.netlify/functions/api-proxy';
+        const response = await fetch(proxyUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
         const data = await response.json();
+
+        // Validate required fields
+        if (!data.total_jobs || data.total_jobs === undefined) {
+          throw new Error('Invalid API response: missing total_jobs');
+        }
 
         const newStats = {
           totalJobs: data.total_jobs,
-          completedJobs: data.completed_jobs,
-          activeWorkers: data.active_workers,
+          completedJobs: data.completed_jobs || 0,
+          activeWorkers: data.active_workers || 0,
           deadWorkers: data.dead_workers || 0,
-          totalPrimes: data.total_primes,
+          totalPrimes: data.total_primes || 0,
           queuedJobs: data.queued_jobs || 0,
           assignedJobs: data.assigned_jobs || 0,
           snapshotsProcessed: data.snapshots_processed || 0,
           snapshotsFailed: data.snapshots_failed || 0,
-          progress: ((data.completed_jobs / data.total_jobs) * 100) || 0,
-          workers: data.worker_ids.map((id) => ({
+          progress: data.total_jobs > 0 ? ((data.completed_jobs || 0) / data.total_jobs) * 100 : 0,
+          workers: (data.worker_ids || []).map((id) => ({
             id,
             status: "active",
             jobsCompleted: 0,
@@ -96,7 +105,7 @@ function App() {
             {
               id: `error-${Date.now()}`,
               type: "error",
-              message: "Failed to connect to API",
+              message: `Failed to connect to API: ${error.message}`,
               timestamp: new Date(),
             },
             ...prev.alerts,

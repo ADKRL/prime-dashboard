@@ -10,5 +10,6 @@ export default defineConfig({
   },
   // Environment variables (prefixed with VITE_)
   // Can be set via .env files or command line
-  // Example: VITE_COORDINATOR_HOST=192.168.1.100 npm run build
+  // VITE_COORDINATOR_HOST and VITE_COORDINATOR_PORT are used by App.jsx
+  // Example: VITE_COORDINATOR_HOST=abc123.ngrok-free.dev npm run build
 })

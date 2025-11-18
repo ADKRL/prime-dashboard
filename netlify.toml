@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+  publish = "dist"
+
+[context.production.environment]
+  COORDINATOR_HOST = "calcaneal-unprizable-zena.ngrok-free.dev"
+  COORDINATOR_PORT = "443"
+
+[context.deploy-preview.environment]
+  COORDINATOR_HOST = "calcaneal-unprizable-zena.ngrok-free.dev"
+  COORDINATOR_PORT = "443"
