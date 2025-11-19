@@ -25,9 +25,14 @@ function App() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Use Netlify Function to proxy API calls (bypasses CORS issues)
-        const proxyUrl = '/.netlify/functions/api-proxy';
-        const response = await fetch(proxyUrl, {
+        // Fetch directly from the coordinator API
+        const coordinatorHost = process.env.REACT_APP_COORDINATOR_HOST || 'localhost';
+        const coordinatorPort = process.env.REACT_APP_COORDINATOR_PORT || '9000';
+        const protocol = coordinatorPort === '443' ? 'https' : 'http';
+        const portString = (coordinatorPort === '443' && protocol === 'https') || (coordinatorPort === '80' && protocol === 'http') ? '' : `:${coordinatorPort}`;
+        const apiUrl = `${protocol}://${coordinatorHost}${portString}/api/status`;
+
+        const response = await fetch(apiUrl, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

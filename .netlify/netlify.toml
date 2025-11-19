@@ -1,0 +1,32 @@
+functionsDirectory = "/Users/adityamazumdar/Downloads/DS_CW/prime-dashboard/netlify/functions"
+functionsDirectoryOrigin = "config-v1"
+plugins = []
+headers = []
+redirects = []
+
+[build]
+publish = "/Users/adityamazumdar/Downloads/DS_CW/prime-dashboard/dist"
+publishOrigin = "config"
+commandOrigin = "config"
+command = "npm run build"
+functions = "/Users/adityamazumdar/Downloads/DS_CW/prime-dashboard/netlify/functions"
+
+[build.environment]
+COORDINATOR_HOST = "calcaneal-unprizable-zena.ngrok-free.dev"
+COORDINATOR_PORT = "443"
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[functions]
+
+[functions."*"]
