@@ -36,6 +36,8 @@ function App() {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true',
+            'User-Agent': 'prime-dashboard',
           },
         });
 
