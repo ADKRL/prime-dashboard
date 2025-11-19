@@ -5,7 +5,7 @@
 
 set -e
 
-COORDINATOR_PATH="/Users/adityamazumdar/Downloads/DS_CW/prime-coordinator"
+COORDINATOR_PATH="/Users/lovess/Sem1/DS/prime-finder/prime-coordinator"
 COORDINATOR_BIN="$COORDINATOR_PATH/bin/coordinator"
 COORDINATOR_CONFIG="$COORDINATOR_PATH/configs/config.yaml"
 DASHBOARD_URL="https://prime-dashboard.netlify.app"
@@ -16,14 +16,14 @@ echo ""
 
 # Check if coordinator binary exists
 if [ ! -f "$COORDINATOR_BIN" ]; then
-    echo "❌ Coordinator binary not found at $COORDINATOR_BIN"
-    exit 1
+  echo "❌ Coordinator binary not found at $COORDINATOR_BIN"
+  exit 1
 fi
 
 # Check if Ngrok is installed
 if ! command -v ngrok &> /dev/null; then
-    echo "❌ Ngrok not found. Install it with: brew install ngrok"
-    exit 1
+  echo "❌ Ngrok not found. Install it with: brew install ngrok"
+  exit 1
 fi
 
 echo "Step 1: Starting Coordinator..."
