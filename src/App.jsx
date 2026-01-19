@@ -26,8 +26,8 @@ function App() {
     const fetchStats = async () => {
       try {
         // Fetch directly from the coordinator API
-        const coordinatorHost = process.env.REACT_APP_COORDINATOR_HOST || 'localhost';
-        const coordinatorPort = process.env.REACT_APP_COORDINATOR_PORT || '9000';
+        const coordinatorHost = import.meta.env.VITE_COORDINATOR_HOST || 'localhost';
+        const coordinatorPort = import.meta.env.VITE_COORDINATOR_PORT || '9000';
         const protocol = coordinatorPort === '443' ? 'https' : 'http';
         const portString = (coordinatorPort === '443' && protocol === 'https') || (coordinatorPort === '80' && protocol === 'http') ? '' : `:${coordinatorPort}`;
         const apiUrl = `${protocol}://${coordinatorHost}${portString}/api/status`;
